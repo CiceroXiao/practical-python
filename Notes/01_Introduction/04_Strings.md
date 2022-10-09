@@ -1,4 +1,4 @@
-[Contents](../Contents.md) \| [Previous (1.3 Numbers)](03_Numbers.md) \| [Next (1.5 Lists)](05_Lists.md)
+[  Contents](../Contents.md) \| [Previous (1.3 Numbers)](03_Numbers.md) \| [Next (1.5 Lists)](05_Lists.md)
 
 # 1.4 Strings
 
@@ -277,16 +277,16 @@ Start by defining a string containing a series of stock ticker symbols like this
 Strings are arrays of characters. Try extracting a few characters:
 
 ```python
->>> symbols[0]
+>>> symbols[0] #A
 ?
->>> symbols[1]
+>>> symbols[1] #A
 ?
->>> symbols[2]
+>>> symbols[2] #P
 ?
 >>> symbols[-1]        # Last character
-?
+? #O
 >>> symbols[-2]        # Negative indices are from end of string
-?
+? #C
 >>>
 ```
 
@@ -320,7 +320,7 @@ the end of `symbols`:
 Oops!  That's not what you wanted. Fix it so that the `symbols` variable holds the value `'AAPL,IBM,MSFT,YHOO,SCO,GOOG'`.
 
 ```python
->>> symbols = ?
+>>> symbols = ? # symbols + ',GOOG'
 >>> symbols
 'AAPL,IBM,MSFT,YHOO,SCO,GOOG'
 >>>
@@ -329,7 +329,7 @@ Oops!  That's not what you wanted. Fix it so that the `symbols` variable holds t
 Add `'HPQ'` to the front the string:
 
 ```python
->>> symbols = ?
+>>> symbols = ? # 'HPQ,' + symbols + ',GOOG'
 >>> symbols
 'HPQ,AAPL,IBM,MSFT,YHOO,SCO,GOOG'
 >>>
@@ -348,11 +348,11 @@ Experiment with the `in` operator to check for substrings.  At the
 interactive prompt, try these operations:
 
 ```python
->>> 'IBM' in symbols
+>>> 'IBM' in symbols # True
 ?
->>> 'AA' in symbols
+>>> 'AA' in symbols # True
 True
->>> 'CAT' in symbols
+>>> 'CAT' in symbols # False
 ?
 >>>
 ```
@@ -364,9 +364,9 @@ True
 At the Python interactive prompt, try experimenting with some of the string methods.
 
 ```python
->>> symbols.lower()
+>>> symbols.lower() # 'hpq,aapl,ibm,msft,yhoo,sco,goog'
 ?
->>> symbols
+>>> symbols # 'HPQ,AAPL,IBM,MSFT,YHOO,SCO,GOOG'
 ?
 >>>
 ```
@@ -381,16 +381,16 @@ Remember, strings are always read-only.  If you want to save the result of an op
 Try some more operations:
 
 ```python
->>> symbols.find('MSFT')
+>>> symbols.find('MSFT') # 13
 ?
->>> symbols[13:17]
+>>> symbols[13:17] # "MSFT"
 ?
 >>> symbols = symbols.replace('SCO','DOA')
->>> symbols
+>>> symbols # "HPQ,AAPL,IBM,MSFT,YHOO,DOA,GOOG"
 ?
 >>> name = '   IBM   \n'
 >>> name = name.strip()    # Remove surrounding whitespace
->>> name
+>>> name # 'IBM'
 ?
 >>>
 ```

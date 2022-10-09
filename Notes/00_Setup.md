@@ -67,7 +67,7 @@ to the local copy on your machine.
 
 Do all of your coding work in the `Work/` directory.  Within that
 directory, there is a `Data/` directory.  The `Data/` directory
-contains a variety of datafiles and other scripts used during the
+contains a variety of data files and other scripts used during the
 course. You will frequently have to access files located in `Data/`.
 Course exercises are written with the assumption that you are creating
 programs in the `Work/` directory.
