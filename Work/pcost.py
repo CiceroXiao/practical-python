@@ -17,16 +17,22 @@ def portfolio_cost(file_path):
     try:
         with open(file_path, mode="rt", encoding="utf-8") as f:
             rows = csv.reader(f)
-            _ = next(rows)
+            header = next(rows)
+            cost = 0
+            types = [str, int, float]
 
-            cost = sum(int(_[1]) * float(_[2]) for _ in rows)
+            for rowno, row in enumerate(rows):
+                try:
+                    converted = [func(val) for func, val in zip(types, row)]
+                    record = dict(zip(header, converted))
+                    cost += int(record["shares"]) * float(record["price"])
+                except ValueError:
+                    print(f"Row {rowno}: Bad row: {row}")
         return cost
     except FileNotFoundError as exc:
         raise FileNotFoundError("请您提供有效的文件路径") from exc
     except IndexError as exc:
         raise IndexError("您提供的文件内容有误，请检查您的文件内容") from exc
-    except ValueError as exc:
-        raise ValueError("您输入的数据有误，请您检查您的输入") from exc
 
 
 total_cost = portfolio_cost(PORTFOLIO_PATH)
