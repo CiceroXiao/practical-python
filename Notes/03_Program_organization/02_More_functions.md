@@ -369,7 +369,7 @@ def parse_csv(filename, select=None):
                 continue
             # Filter the row if specific columns were selected
             if indices:
-                row = [ row[index] for index in indices ]
+                row = [row[index] for index in indices]
 
             # Make a dictionary
             record = dict(zip(headers, row))
@@ -437,7 +437,7 @@ You'll need to insert the following fragment of code into your solution:
 ```python
 ...
 if types:
-    row = [func(val) for func, val in zip(types, row) ]
+    row = [func(val) for func, val in zip(types, row)]
 ...
 ```
 

@@ -104,7 +104,7 @@ Right now, the function expects to be passed a filename.  However, you
 can make the code more flexible.  Modify the function so that it works
 with any file-like/iterable object.  For example:
 
-```
+```python
 >>> import fileparse
 >>> import gzip
 >>> with gzip.open('Data/portfolio.csv.gz', 'rt') as file:
@@ -117,7 +117,7 @@ with any file-like/iterable object.  For example:
 
 In this new code, what happens if you pass a filename as before?
 
-```
+```python
 >>> port = fileparse.parse_csv('Data/portfolio.csv', types=[str,int,float])
 >>> port
 ... look at output (it should be crazy) ...
