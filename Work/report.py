@@ -26,9 +26,7 @@ def read_prices(file_path: str) -> dict:
     """从指定文件中获取股票名称及其对应的价格
     :param file_path: 股票文件的路径"""
     with open(file_path, mode="rt", encoding="utf-8") as lines:
-        prices = dict(fileparse.parse_csv(lines,
-                                          types=[str, float],
-                                          has_headers=False))
+        prices = dict(fileparse.parse_csv(lines, types=[str, float], has_headers=False))
     return prices
 
 
@@ -58,7 +56,7 @@ def print_report(report_data, formatter):
         formatter.row(rowdata)
 
 
-def portfolio_report(portfolio_file: str, prices_file: str, fmt='txt'):
+def portfolio_report(portfolio_file: str, prices_file: str, fmt="txt"):
     """反映已购的股票组合之价格波动
     :param portfolio_file: 包含已购买的股票组合之花费的文件
     :param prices_file: 包含当前股票价格的文件

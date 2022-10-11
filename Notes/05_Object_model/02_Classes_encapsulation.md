@@ -248,7 +248,8 @@ File "<stdin>", line 1, in ?
 AttributeError: 'Stock' object has no attribute 'prices'
 ```
 
-Although this prevents errors and restricts usage of objects, it's actually used for performance and
+Although this prevents errors and restricts usage of objects, 
+it's actually used for performance and
 makes Python use memory more efficiently.
 
 ### Final Comments on Encapsulation
