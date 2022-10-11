@@ -1,7 +1,10 @@
 # report.py
 #
 # Exercise 2.4
+import copy
 import fileparse
+import stock
+import tableformat
 
 
 def read_portfolio(file_path: str) -> list:
@@ -11,72 +14,79 @@ def read_portfolio(file_path: str) -> list:
 
     with open(file_path, mode="rt", encoding="utf-8") as lines:
         portfolio = fileparse.parse_csv(
-            lines,
-            select=["name", "shares", "price"],
-            types=[str, int, float],
-            has_headers=True,
+            lines, select=["name", "shares", "price"], types=[str, int, float]
         )
-        return portfolio
+        portfolios = [
+            stock.Stock(d["name"], d["shares"], d["price"]) for d in portfolio
+        ]
+        return portfolios
 
 
 def read_prices(file_path: str) -> dict:
     """从指定文件中获取股票名称及其对应的价格
     :param file_path: 股票文件的路径"""
     with open(file_path, mode="rt", encoding="utf-8") as lines:
-        prices = dict(fileparse.parse_csv(lines=lines, types=[str, float]))
-        return prices
+        prices = dict(fileparse.parse_csv(lines,
+                                          types=[str, float],
+                                          has_headers=False))
+    return prices
 
 
-def make_report(portfolio: list[dict], prices: dict) -> tuple:
+def make_report(portfolio: list[dict], prices: dict) -> list:
     """获取投资组合的当前价格变动数据。
     :param portfolio: 投资组合数据，其字段包括 name、shares 和 price
     :param prices: 股票的当前价格，其字段包括 name 和 price"""
-    portfolio = portfolio[:]
+    portfolio = copy.copy(portfolio)
+    reports = []
     for _ in portfolio:
-        _["change"] = prices[_["name"]] - _["price"] if _["name"] in prices else 0
-        _["now_price"] = prices[_["name"]] if _["name"] in prices else 0
-    reports = ((_["name"], _["shares"], _["now_price"], _["change"]) for _ in portfolio)
+        change = prices[_.name] - _.price if _.name in prices else 0
+        current_price = prices[_.name] if _.name in prices else 0
+
+        reports.append([_.name, _.shares, current_price, change])
     return reports
 
 
-def print_report(report_data):
-    """打印美观的表格数据，其字段包括 Name、Shares、Price 和 Change"""
+def print_report(report_data, formatter):
+    """打印美观的表格数据，其字段包括 Name、Shares、Price 和 Change
+    :param report_data: 想要打印的数据
+    :param formatter:"""
 
-    header = ["Name", "Shares", "Price", "Change"]
-    print(f"{header[0]:>10s} {header[1]:>10s} {header[2]:>10s} {header[3]:>10s}")
-    print(f"{'':->10s} " * len(header))
+    formatter.headings(["Name", "Shares", "Price", "Change"])
+
     for name, shares, price, change in report_data:
-        print(
-            f"{name:>10s} {shares:>10d} {'$'+str(round(price, 2)):>10s} {change:>10.2f}"
-        )
+        rowdata = [name, str(shares), f"{price:0.2f}", f"{change:0.2f}"]
+        formatter.row(rowdata)
 
 
-def portfolio_filename(portfolio_file: str, prices_file: str):
+def portfolio_report(portfolio_file: str, prices_file: str, fmt='txt'):
     """反映已购的股票组合之价格波动
     :param portfolio_file: 包含已购买的股票组合之花费的文件
-    :param prices_file: 包含当前股票价格的文件"""
+    :param prices_file: 包含当前股票价格的文件
+    :param fmt: 传入的文件格式"""
     portfolio_detail = read_portfolio(file_path=portfolio_file)
-    portfolio_cost = sum(stock["shares"] * stock["price"] for stock in portfolio_detail)
+    portfolio_cost = sum(_.shares * _.price for _ in portfolio_detail)
     print(f"Total cost: {portfolio_cost:0.2f}")
 
     prices_detail = read_prices(file_path=prices_file)
     current_value = sum(
-        stock["shares"] * prices_detail[stock["name"]]
-        for stock in portfolio_detail
-        if stock["name"] in prices_detail
+        _.shares * prices_detail[_.name]
+        for _ in portfolio_detail
+        if _.name in prices_detail
     )
     print(f"Current value: {current_value:0.2f}")
     print(f"Total gain: {current_value - portfolio_cost:0.2f}")
 
     report = make_report(portfolio=portfolio_detail, prices=prices_detail)
-    print_report(report_data=report)
+
+    formatter = tableformat.create_formatter(fmt)
+    print_report(report_data=report, formatter=formatter)
 
 
 def main(args):
     """执行此脚本"""
-    if len(args) != 3:
-        raise SystemExit(f"Usage: {args[0]} " "portfile pricefile")
-    portfolio_filename(portfolio_file=args[1], prices_file=args[2])
+    if len(args) != 4:
+        raise SystemExit(f"Usage: {args[0]} " "portfile pricefile fmt")
+    portfolio_report(portfolio_file=args[1], prices_file=args[2], fmt=args[3])
 
 
 if __name__ == "__main__":

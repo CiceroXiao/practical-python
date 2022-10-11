@@ -224,7 +224,7 @@ Stock('GOOG', 100, 490.1)
 See what happens when you read a portfolio of stocks and view the
 resulting list after you have made these changes.  For example:
 
-```
+```python
 >>> import report
 >>> portfolio = report.read_portfolio('Data/portfolio.csv')
 >>> portfolio

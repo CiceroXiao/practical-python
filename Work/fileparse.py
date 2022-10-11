@@ -8,7 +8,7 @@ def parse_csv(
     lines,
     select=None,
     types=None,
-    has_headers=False,
+    has_headers=True,
     delimiter=",",
     silence_errors=True,
 ) -> list[dict] | list[tuple]:
@@ -16,9 +16,10 @@ def parse_csv(
     :param lines: csv 文件路径
     :param select: list ，要读取的字段内容，默认为 None ，即读取文件中的所有字段
     :paran types: list ，字段对应的数据类型，默认为 None ，即不转换文件中的字段数据类型
-    :param has_headers: 文件是否有表头，默认为 False ，即文件无表头
+    :param has_headers: 文件是否有表头，默认为 True ，即文件有表头
     :param delimiter: csv 文件的分隔符，默认为 “,”
-    :return records: 如果文件有表头，则以 list[dict] 格式返回文件的数据；否则，以 list[tuple] 格式返回文件的数据"""
+    :return records: 如果文件有表头，则以 list[dict] 格式返回文件的数据；
+                     否则，以 list[tuple] 格式返回文件的数据"""
     rows = csv.reader(lines, delimiter=delimiter)
 
     if select and not has_headers:
