@@ -123,7 +123,7 @@ example in the previous exercise except that it's no longer
 opening a file--it merely operates on a sequence of lines given
 to it as an argument.  Now, try this:
 
-```
+```python
 >>> from follow import follow
 >>> lines = follow('Data/stocklog.csv')
 >>> ibm = filematch(lines, 'IBM')
@@ -141,7 +141,7 @@ should see some lines containing data for IBM.
 Take the pipelining idea a few steps further by performing
 more actions.
 
-```
+```python
 >>> from follow import follow
 >>> import csv
 >>> lines = follow('Data/stocklog.csv')
@@ -184,7 +184,7 @@ if __name__ == '__main__':
 
 Write a new function that selects specific columns:
 
-```
+```python
 # ticker.py
 ...
 def select_columns(rows, indices):
@@ -199,7 +199,7 @@ def parse_stock_data(lines):
 
 Run your program again.  You should see output narrowed down like this:
 
-```
+```python
 ['BA', '98.35', '0.16']
 ['AA', '39.63', '-0.03']
 ['XOM', '82.45','-0.23']
@@ -233,7 +233,7 @@ def parse_stock_data(lines):
 
 Run your program again.  You should now a stream of dictionaries like this:
 
-```
+```python
 { 'name':'BA', 'price':98.35, 'change':0.16 }
 { 'name':'AA', 'price':39.63, 'change':-0.03 }
 { 'name':'XOM', 'price':82.45, 'change': -0.23 }

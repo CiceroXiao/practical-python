@@ -5,11 +5,10 @@ import report
 
 
 def portfolio_cost(file_path: str) -> float:
-    """计算该文件中的股票总费用 shares * price"""
+    """计算该文件中的股票总费用"""
     try:
         records = report.read_portfolio(file_path=file_path)
-        cost = sum(record.shares * record.price for record in records)
-        return cost
+        return records.total_cost
     except FileNotFoundError as exc:
         raise FileNotFoundError("请您提供有效的文件路径") from exc
     except IndexError as exc:

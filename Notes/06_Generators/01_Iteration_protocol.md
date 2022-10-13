@@ -172,7 +172,7 @@ This class is meant to be a layer around a list, but with some
 extra methods such as the `total_cost` property.  Modify the `read_portfolio()`
 function in `report.py` so that it creates a `Portfolio` instance like this:
 
-```
+```python
 # report.py
 ...
 
@@ -290,7 +290,7 @@ class Portfolio:
 
 Now, try some experiments using this new class:
 
-```
+```python
 >>> import report
 >>> portfolio = report.read_portfolio('Data/portfolio.csv')
 >>> len(portfolio)

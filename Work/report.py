@@ -5,10 +5,11 @@ import copy
 import fileparse
 import stock
 import tableformat
+from portfolio import Portfolio
 
 
 def read_portfolio(file_path: str) -> list:
-    """读取某个文件中的投资组合
+    """读取某个文件中的投资组合数据，其字段包括 name、shares 和 price
     :param file_path: 存储投资组合信息的文件路径
     :return portfolio: list ，股票投资组合信息"""
 
@@ -19,7 +20,7 @@ def read_portfolio(file_path: str) -> list:
         portfolios = [
             stock.Stock(d["name"], d["shares"], d["price"]) for d in portfolio
         ]
-        return portfolios
+        return Portfolio(portfolios)
 
 
 def read_prices(file_path: str) -> dict:

@@ -1,7 +1,10 @@
+from follow import follow
 import report
-from tableformat import create_formatter, print_table
+from ticker import filter_symbols, parse_stock_data
 
-portfolio = report.read_portfolio('Data/portfolio.csv')
-formatter = create_formatter('txts')
+portfolio = report.read_portfolio("Data/portfolio.csv")
+rows = parse_stock_data(follow("Data/stocklog.csv"))
+rows = filter_symbols(rows=rows, names=portfolio)
 
-print_table(portfolio, ['name', 'shares', 'price'], formatter)
+for row in rows:
+    print(row)
