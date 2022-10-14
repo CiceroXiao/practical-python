@@ -130,7 +130,7 @@ Notice how the parameter `*more` collects all of the extra arguments.
 Suppose you read some data from a file and obtained a tuple such as
 this:
 
-```
+```python
 >>> data = ('GOOG', 100, 490.1)
 >>>
 ```
@@ -138,7 +138,7 @@ this:
 Now, suppose you wanted to create a `Stock` object from this
 data.  If you try to pass `data` directly, it doesn't work:
 
-```
+```python
 >>> from stock import Stock
 >>> s = Stock(data)
 Traceback (most recent call last):
@@ -194,7 +194,7 @@ The `fileparse.parse_csv()` function has some options for changing the
 file delimiter and for error reporting.  Maybe you'd like to expose those
 options to the `read_portfolio()` function above.   Make this change:
 
-```
+```python
 def read_portfolio(filename, **opts):
     '''
     Read a stock portfolio file into a list of dictionaries with keys

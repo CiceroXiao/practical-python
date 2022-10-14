@@ -1,10 +1,19 @@
-from follow import follow
-import report
-from ticker import filter_symbols, parse_stock_data
+import time
 
-portfolio = report.read_portfolio("Data/portfolio.csv")
-rows = parse_stock_data(follow("Data/stocklog.csv"))
-rows = filter_symbols(rows=rows, names=portfolio)
 
-for row in rows:
-    print(row)
+class Date:
+    def __init__(self, year, month, day):
+        self.year = year
+        self.month = month
+        self.day = day
+
+    @classmethod
+    def today(cls):
+        # Notice how the class is passed as an argument
+        tm = time.localtime()
+        # And used to create a new instance
+        return cls(tm.tm_year, tm.tm_mon, tm.tm_mday)
+
+
+d = Date.today()
+print(d.day)

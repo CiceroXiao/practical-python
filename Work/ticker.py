@@ -3,6 +3,7 @@
 import csv
 
 from follow import follow
+from pcost import main
 
 
 def select_columns(rows, indices):
@@ -15,7 +16,8 @@ def select_columns(rows, indices):
     Yields:
         list: 用户想要的数据
     """
-    yield ([row[index] for index in indices] for row in rows)
+    for row in rows:
+        yield [row[index] for index in indices]
 
 
 def convert_types(rows, types):
@@ -28,7 +30,8 @@ def convert_types(rows, types):
     Yields:
         list: 转换数据类型后的数据
     """
-    yield ([func(val) for func, val in zip(types, row)] for row in rows)
+    for row in rows:
+        yield [func(val) for func, val in zip(types, row)]
 
 
 def make_dicts(rows, headers):
@@ -41,7 +44,7 @@ def make_dicts(rows, headers):
     Yields:
         dict: 以 {header: row} 的形式返回数据
     """
-    yield (dict(zip(headers, row)) for row in rows)
+    return (dict(zip(headers, row)) for row in rows)
 
 
 def filter_symbols(rows, names):
@@ -54,7 +57,9 @@ def filter_symbols(rows, names):
     Yields:
         list: 以列表形式返回指定数据
     """
-    yield (row for row in rows if row["name"] in names)
+    for row in rows:
+        if row["name"] in names:
+            yield row
 
 
 def parse_stock_data(lines):
@@ -78,7 +83,8 @@ def ticker(portfile, logfile, fmt):
 
     portfolio = report.read_portfolio(portfile)
     rows = parse_stock_data(follow(logfile))
-    rows = filter_symbols(rows=rows, names=portfolio)
+    # rows = filter_symbols(rows=rows, names=portfolio)
+    rows = (row for row in rows if row["name"] in portfolio)
     formatter = tableformat.create_formatter(fmt=fmt)
     formatter.headings(["name", "price", "change"])
     for row in rows:
@@ -87,5 +93,13 @@ def ticker(portfile, logfile, fmt):
         )
 
 
+def main(args):
+    if len(args) != 4:
+        raise SystemExit(f"Usage: {args[0]} portfoliofile logfile fmt")
+    ticker(portfile=args[1], logfile=args[2], fmt=args[3])
+
+
 if __name__ == "__main__":
-    ticker(portfile="Data/portfolio.csv", logfile="Data/stocklog.csv", fmt="txt")
+    import sys
+
+    main(sys.argv)

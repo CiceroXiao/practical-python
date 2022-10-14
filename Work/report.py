@@ -2,24 +2,23 @@
 #
 # Exercise 2.4
 import copy
+
 import fileparse
 import stock
 import tableformat
 from portfolio import Portfolio
 
 
-def read_portfolio(file_path: str) -> list:
+def read_portfolio(file_path: str, **opts) -> list:
     """读取某个文件中的投资组合数据，其字段包括 name、shares 和 price
     :param file_path: 存储投资组合信息的文件路径
     :return portfolio: list ，股票投资组合信息"""
 
     with open(file_path, mode="rt", encoding="utf-8") as lines:
         portfolio = fileparse.parse_csv(
-            lines, select=["name", "shares", "price"], types=[str, int, float]
+            lines, select=["name", "shares", "price"], types=[str, int, float], **opts
         )
-        portfolios = [
-            stock.Stock(d["name"], d["shares"], d["price"]) for d in portfolio
-        ]
+        portfolios = [stock.Stock(**d) for d in portfolio]
         return Portfolio(portfolios)
 
 

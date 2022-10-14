@@ -41,7 +41,8 @@ class Foo(object):
     def bar(x):
         print('x =', x)
 
->>> Foo.bar(2) x=2
+>>> Foo.bar(2) 
+x = 2
 >>>
 ```
 
