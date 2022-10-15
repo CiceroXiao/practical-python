@@ -312,7 +312,7 @@ module imports to include a package-relative import.   For example,
 a statement such as `import fileparse` might change to the
 following:
 
-```
+```python
 # report.py
 from . import fileparse
 ...
@@ -321,7 +321,7 @@ from . import fileparse
 If you have a statement such as `from fileparse import parse_csv`, change
 the code to the following:
 
-```
+```python
 # report.py
 from .fileparse import parse_csv
 ...
