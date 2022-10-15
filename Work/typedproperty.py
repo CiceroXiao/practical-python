@@ -20,3 +20,26 @@ def typedproperty(name, expected_type):
 String = lambda name: typedproperty(name, str)
 Integer = lambda name: typedproperty(name, int)
 Float = lambda name: typedproperty(name, float)
+
+
+if __name__ == "__main__":
+
+    class Stock:
+        name = typedproperty("name", str)
+        shares = typedproperty("shares", int)
+        price = typedproperty("price", float)
+
+        def __init__(self, name, shares, price) -> None:
+            self.name = name
+            self.shares = shares
+            self.price = price
+
+    class Stock2:
+        name = String("name")
+        shares = Integer("shares")
+        price = Float("price")
+
+        def __init__(self, name, shares, price) -> None:
+            self.name = name
+            self.shares = shares
+            self.price = price

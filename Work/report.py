@@ -22,11 +22,13 @@ def read_portfolio(file_path: str, **opts) -> list:
         return Portfolio(portfolios)
 
 
-def read_prices(file_path: str) -> dict:
+def read_prices(file_path: str, **opts) -> dict:
     """从指定文件中获取股票名称及其对应的价格
     :param file_path: 股票文件的路径"""
     with open(file_path, mode="rt", encoding="utf-8") as lines:
-        prices = dict(fileparse.parse_csv(lines, types=[str, float], has_headers=False))
+        prices = dict(
+            fileparse.parse_csv(lines, types=[str, float], has_headers=False, **opts)
+        )
     return prices
 
 
@@ -62,17 +64,7 @@ def portfolio_report(portfolio_file: str, prices_file: str, fmt="txt"):
     :param prices_file: 包含当前股票价格的文件
     :param fmt: 传入的文件格式"""
     portfolio_detail = read_portfolio(file_path=portfolio_file)
-    portfolio_cost = sum(_.shares * _.price for _ in portfolio_detail)
-    print(f"Total cost: {portfolio_cost:0.2f}")
-
     prices_detail = read_prices(file_path=prices_file)
-    current_value = sum(
-        _.shares * prices_detail[_.name]
-        for _ in portfolio_detail
-        if _.name in prices_detail
-    )
-    print(f"Current value: {current_value:0.2f}")
-    print(f"Total gain: {current_value - portfolio_cost:0.2f}")
 
     report = make_report(portfolio=portfolio_detail, prices=prices_detail)
 

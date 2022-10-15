@@ -6,11 +6,13 @@ class TableFormatter:
         """
         Emit the table headings.
         """
+        raise NotImplementedError()
 
     def row(self, rowdata):
         """
         Emit a single row of table data.
         """
+        raise NotImplementedError()
 
 
 class TextTableFormatter(TableFormatter):
@@ -34,6 +36,7 @@ class TextTableFormatter(TableFormatter):
             rowdata: 文件的非表头数据
         """
         import math
+
         for data in rowdata:
             try:
                 print(f"{data:>10s}", end="")
@@ -85,10 +88,10 @@ class HTMLTableFormatter(TableFormatter):
         Args:
             rowdata: 文件的非表头数据
         """
-        print(
-            f"<tr><td>{rowdata[0]}</td><td>{rowdata[1]}"
-            f"</td><td>{rowdata[2]}</td><td>{rowdata[2]}</td></tr>"
-        )
+        print("<tr>", end="")
+        for d in rowdata:
+            print(f"<td>{d}</td>", end="")
+        print("</tr>")
 
 
 class FormatError(Exception):
@@ -119,9 +122,8 @@ def print_table(data, select: list, formatter):
         select (list): 用户选择输出的字段，默认为 None，即输出全部字段。
         formatter (_type_): 文件的格式。
     """
-    headers = select
-    formatter.headings(headers)
+    formatter.headings(select)
 
     for _ in data:
-        rowdata = [getattr(_, colname) for colname in select]
+        rowdata = [str(getattr(_, colname)) for colname in select]
         formatter.row(rowdata)

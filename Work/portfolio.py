@@ -1,11 +1,8 @@
 # portfolio.py
 
 
-from stock import Stock
-
-
 class Portfolio:
-    def __init__(self, holdings: Stock):
+    def __init__(self, holdings):
         self._holdings = holdings
 
     def __iter__(self):
@@ -22,7 +19,7 @@ class Portfolio:
 
     @property
     def total_cost(self):
-        return sum(s.cost for s in self._holdings)
+        return sum(s.shares * s.price for s in self._holdings)
 
     def tabulate_shares(self):
         from collections import Counter

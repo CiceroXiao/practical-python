@@ -9,10 +9,10 @@ def follow(filepath):
     f.seek(0, os.SEEK_END)
     while True:
         line = f.readline()
-        if line == "":
+        if line != "":
+            yield line
+        else:
             time.sleep(0.1)
-            continue
-        yield line
 
 
 if __name__ == "__main__":

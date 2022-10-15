@@ -1,8 +1,13 @@
 # stock.py
+from typedproperty import Float, Integer, String
 
 
 class Stock:
     """股票对象"""
+
+    name = String("name")
+    shares = Integer("shares")
+    price = Float("price")
 
     def __init__(self, name, shares: int, price: float):
         self.name = name
@@ -10,7 +15,7 @@ class Stock:
         self.price = price
 
     def __repr__(self):
-        return f"Stock('{self.name}', {self.shares}, {self.price})"
+        return f"Stock('{self.name!r}', {self.shares!r}, {self.price!r})"
 
     @property
     def cost(self) -> float:
@@ -21,13 +26,3 @@ class Stock:
         """出售指定数额的股票
         :param sold_shares: 已出售的股票数量"""
         self.shares -= sold_shares
-
-    @property
-    def shares(self):
-        return self._shares
-
-    @shares.setter
-    def shares(self, value):
-        if not isinstance(value, int):
-            raise TypeError("Expected int")
-        self._shares = value

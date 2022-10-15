@@ -19,8 +19,7 @@ def main(args):
     """执行脚本"""
     if len(args) != 2:
         raise SystemExit(f"Usage: {args[0]} " "portfile pricefile")
-    total_cost = portfolio_cost(args[1])
-    print(f"Total cost {total_cost:0.2f}")
+    print(f"Total cost {portfolio_cost(args[1]):0.2f}")
 
 
 if __name__ == "__main__":

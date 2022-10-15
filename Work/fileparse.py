@@ -20,10 +20,10 @@ def parse_csv(
     :param delimiter: csv 文件的分隔符，默认为 “,”
     :return records: 如果文件有表头，则以 list[dict] 格式返回文件的数据；
                      否则，以 list[tuple] 格式返回文件的数据"""
-    rows = csv.reader(lines, delimiter=delimiter)
-
     if select and not has_headers:
         raise RuntimeError("select argument requires column headers")
+
+    rows = csv.reader(lines, delimiter=delimiter)
 
     header = next(rows) if has_headers else []
     if select:
