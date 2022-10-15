@@ -2,6 +2,14 @@
 #
 # Exercise 3.3
 import csv
+import logging
+
+log = logging.getLogger(__name__)
+logging.basicConfig(
+    filename="Data/app.log",
+    filemode="w",
+    level=logging.WARNING,
+)
 
 
 def parse_csv(
@@ -25,7 +33,10 @@ def parse_csv(
 
     rows = csv.reader(lines, delimiter=delimiter)
 
+    # 如果用户认为表中有表头，则读取表文件的第一行为表头
     header = next(rows) if has_headers else []
+
+    # 如果用户指定选取字段，则挑选出用户指定的字段
     if select:
         try:
             field_indices = [header.index(colname) for colname in select]
@@ -36,20 +47,22 @@ def parse_csv(
         field_indices = []
 
     records = []
-    start = 0 if has_headers else 1
+    start = 0 if has_headers else 1  # 如果表文件没有表头，则 enumerate() 应该从 1 开始
     for rowno, row in enumerate(rows, start=start):
-        if not row:
+        if not row:  # 跳过空行
             continue
-        if field_indices:
+
+        if select:
             row = [row[index] for index in field_indices]
 
-        try:
-            row = [func(val) for func, val in zip(types, row)]
-        except ValueError as exc:
-            if silence_errors:
+        if types:
+            try:
+                row = [func(val) for func, val in zip(types, row)]
+            except ValueError as exc:
+                if not silence_errors:
+                    log.warning(f"Row {rowno}: Couldn't convert [{row}]")
+                    log.debug(f"Row {rowno}: {exc}")
                 continue
-            print(f"Row {rowno}: Couldn't convert [{row}]")
-            print(f"Row {rowno}: {exc}")
 
         record = dict(zip(header, row)) if has_headers else tuple(row)
         records.append(record)
@@ -58,14 +71,9 @@ def parse_csv(
 
 
 if __name__ == "__main__":
+    import report
+
     try:
-        with open(r"Data/missing.csv", mode="rt", encoding="utf-8") as f:
-            portfolio = parse_csv(
-                lines=f,
-                types=[str, int, float],
-                # has_headers=True,
-                # delimiter=" ",
-            )
+        a = report.read_portfolio("Data/missing.csv", silence_errors=False)
     except FileNotFoundError as file_error:
         raise FileNotFoundError("文件路径错误，请您检查所提交的文件路径") from file_error
-    print(portfolio)

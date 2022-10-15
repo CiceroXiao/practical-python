@@ -268,7 +268,7 @@ WARNING:fileparse:Row 7: Bad row: ['IBM', '', '70.44']
 You will notice that you don't see the output from the `log.debug()`
 operation. Type this to change the level.
 
-```
+```python
 >>> logging.getLogger('fileparse').level = logging.DEBUG
 >>> a = report.read_portfolio('Data/missing.csv')
 WARNING:fileparse:Row 4: Bad row: ['MSFT', '', '51.23']
@@ -280,7 +280,7 @@ DEBUG:fileparse:Row 7: Reason: invalid literal for int() with base 10: ''
 
 Turn off all, but the most critical logging messages:
 
-```
+```python
 >>> logging.getLogger('fileparse').level=logging.CRITICAL
 >>> a = report.read_portfolio('Data/missing.csv')
 >>>
@@ -292,7 +292,7 @@ To add logging to an application, you need to have some mechanism to
 initialize the logging module in the main module.  One way to
 do this is to include some setup code that looks like this:
 
-```
+```python
 # This file sets up basic configuration of the logging module.
 # Change settings here to adjust logging output as needed.
 import logging
